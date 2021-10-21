@@ -24,8 +24,9 @@ class Main{
     ArrayList<Integer> missingNums = findMissingNums(fullList);
 
     //pass to function to find greatest prime
-    int greatPrime = findPrimeNum(fullList);
+    int greatPrime = findPrimeNum(missingNums);
 
+    //display info
     System.out.println("The arrays are:\n" + Arrays.toString(arr1));
     System.out.println(Arrays.toString(arr2));
     System.out.println(Arrays.toString(arr3));
@@ -57,16 +58,18 @@ class Main{
 
     //find the distinct values
     Set<Integer> uniqueValues = new HashSet<Integer>(fullList);
-    Integer[] uniqueArr = uniqueValues.toArray(new Integer[uniqueValues.size()]);
+    Integer[] uniqueArr = uniqueValues.toArray(new Integer[uniqueValues.size()]); //convert to array to manipulate easier
 
-    int j = fullList.get(0); //ctr to compare against numbers
+    int j = fullList.get(0); //ctr to compare against numbers, set starting point of ctr to the lists first number
 
     //for loop to find missing numbers
     for(int i = 0; i < uniqueArr.length;){
       if(j == uniqueArr[i]){
+        //if j is the unique array number that number exist so we just increment like normal
         j++;
         i++;
       }else{
+        //if j does not equal the unique arr that number doesn't exist so we want to save and and catch up to what ever number the unique array is at so we only increment j
         missingNums.add(j);
         j++;
       }
@@ -81,18 +84,15 @@ class Main{
  
 
     for(int i = fullList.size()-1; i > 0; i--){
-    int num = fullList.get(i);
+      int num = fullList.get(i);
         boolean flag = false;
-        for(int j = 2; j <= num/2; j++)
-        {
+        for(int j = 2; j <= num/2; j++){
             // condition for nonprime number
-            if(num % j == 0)
-            {
+            if(num % j == 0){
                 flag = true;
                 break;
             }
         }
-
         if (!flag){
             return num;
         }
