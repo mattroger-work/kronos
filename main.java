@@ -8,20 +8,12 @@ import java.util.Set;
 class Main{
     public static void main(String[] args) {
       //get the 3 arrays
-    int[] arr1 = create_array();
-    int[] arr2 = create_array();
-    int[] arr3 = create_array();
-    //create an array list to hold the 3 arrays
-    ArrayList<Integer> fullList = new ArrayList<Integer>();
-    //add the arrays to the list
-    for(int i = 0; i < 15; i++){
-      fullList.add(arr1[i]);       
-      fullList.add(arr2[i]);
-      fullList.add(arr3[i]);
-    }
+    int[] arr1 = createArray();
+    int[] arr2 = createArray();
+    int[] arr3 = createArray();
 
     //pass the array to the function to find the missing numbers
-    ArrayList<Integer> missingNums = findMissingNums(fullList);
+    ArrayList<Integer> missingNums = findMissingNums(arr1, arr2, arr3);
 
     //pass to function to find greatest prime
     int greatPrime = findPrimeNum(missingNums);
@@ -31,13 +23,17 @@ class Main{
     System.out.println(Arrays.toString(arr2));
     System.out.println(Arrays.toString(arr3));
     System.out.println("The missing numbers are:\n" + missingNums);
-    System.out.println("The Greatest prime number is:\n" + greatPrime);
-    
+    if(greatPrime == 0){
+      //function returns 0 if no prime number is found
+      System.out.println("There is no prime number");
+    }else{
+      System.out.println("The Greatest prime number is:\n" + greatPrime);
+    }
 
   }
 
   //method to create array
-  private static int[] create_array(){
+  private static int[] createArray(){
     Random rd = new Random(); // create random object
     int max = 50;
     int min = 0;
@@ -51,7 +47,16 @@ class Main{
     return arr;
   }
 
-  private static ArrayList<Integer> findMissingNums(ArrayList<Integer> fullList){
+  private static ArrayList<Integer> findMissingNums(int[] arr1, int[] arr2, int[] arr3){
+  //create an array list to hold the 3 arrays
+  ArrayList<Integer> fullList = new ArrayList<Integer>();
+  //add the arrays to the list
+  for(int i = 0; i < 15; i++){
+    fullList.add(arr1[i]);       
+    fullList.add(arr2[i]);
+    fullList.add(arr3[i]);
+  }
+
     ArrayList<Integer> missingNums = new ArrayList<Integer>(); //instatiate array to hold missing numbers
     //sort the array
     Collections.sort(fullList);
