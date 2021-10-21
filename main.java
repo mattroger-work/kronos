@@ -1,50 +1,106 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 class Main{
     public static void main(String[] args) {
-    int[][][] arr = create_array(3);
+      //get the 3 arrays
+    int[] arr1 = create_array();
+    int[] arr2 = create_array();
+    int[] arr3 = create_array();
+    //create an array list to hold the 3 arrays
+    ArrayList<Integer> fullList = new ArrayList<Integer>();
+    //add the arrays to the list
     for(int i = 0; i < 15; i++){
-            //System.out.println(arr[i][0][0]);
-        /*for(int j = 0; j < 15; j++){
-            for(int c = 0; i < 15; c++){
-                //System.out.println(arr[i][j][c]);
-            }
-        }*/
+      fullList.add(arr1[i]);       
+      fullList.add(arr2[i]);
+      fullList.add(arr3[i]);
     }
+
+    //pass the array to the function to find the missing numbers
+    ArrayList<Integer> missingNums = findMissingNums(fullList);
+
+    //pass to function to find greatest prime
+    int greatPrime = findPrimeNum(fullList);
+
+    System.out.println("The arrays are:\n" + Arrays.toString(arr1));
+    System.out.println(Arrays.toString(arr2));
+    System.out.println(Arrays.toString(arr3));
+    System.out.println("The missing numbers are:\n" + missingNums);
+    System.out.println("The Greatest prime number is:\n" + greatPrime);
+    
 
   }
 
   //method to create array
-  private static int[][][] create_array(int amount){
+  private static int[] create_array(){
     Random rd = new Random(); // create random object
     int max = 50;
     int min = 0;
-    int[] arr1 = new int[15]; // create int depending on amount
-    int[] arr2 = new int[15];
-    int[] arr3 = new int[15];
-    for(int i = 0; i < arr1.length; i++){
-      arr1[i] = rd.nextInt((max-min)+1)+min;
-      arr2[i] = rd.nextInt((max-min)+1)+min;
-      arr3[i] = rd.nextInt((max-min)+1)+min;
-      //System.out.println(i);
-    }
-    System.out.println("--------------------------arr1");
-    for(int i = 0; i < arr1.length; i++){
-        System.out.println(arr1[i]); 
-        System.out.println("i: " + i);
-      }
-      System.out.println("--------------------------arr2");
-    for(int i = 0; i < arr1.length; i++){
-        System.out.println(arr1[i]);
-        System.out.println("i: " + i); 
-    }
-    System.out.println("--------------------------arr3");
-    for(int i = 0; i < arr1.length; i++){
-        System.out.println(arr1[i]);
-        System.out.println("i: " + i); 
+    int[] arr = new int[15]; // instatiate int depending on amount
+
+    //fill array
+    for(int i = 0; i < arr.length; i++){
+      arr[i] = rd.nextInt((max-min)+1)+min;
     }
 
-    int[][][] finArr = {{arr1},{arr2},{arr3}};
-    return finArr;
+    return arr;
   }
+
+  private static ArrayList<Integer> findMissingNums(ArrayList<Integer> fullList){
+    ArrayList<Integer> missingNums = new ArrayList<Integer>(); //instatiate array to hold missing numbers
+    //sort the array
+    Collections.sort(fullList);
+
+    //find the distinct values
+    Set<Integer> uniqueValues = new HashSet<Integer>(fullList);
+    Integer[] uniqueArr = uniqueValues.toArray(new Integer[uniqueValues.size()]);
+
+    int j = fullList.get(0); //ctr to compare against numbers
+
+    //for loop to find missing numbers
+    for(int i = 0; i < uniqueArr.length;){
+      if(j == uniqueArr[i]){
+        j++;
+        i++;
+      }else{
+        missingNums.add(j);
+        j++;
+      }
+    }
+
+
+    return missingNums;
+
+  }
+
+  private static int findPrimeNum(ArrayList<Integer> fullList){
+ 
+
+    for(int i = fullList.size()-1; i > 0; i--){
+    int num = fullList.get(i);
+        boolean flag = false;
+        for(int j = 2; j <= num/2; j++)
+        {
+            // condition for nonprime number
+            if(num % j == 0)
+            {
+                flag = true;
+                break;
+            }
+        }
+
+        if (!flag){
+            return num;
+        }
+
+    }
+
+      return 0;
+    }//end of find prime number
+    
+    
 }
